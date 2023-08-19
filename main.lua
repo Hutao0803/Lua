@@ -23,7 +23,7 @@ local G = _G or getgenv()
 local WS = game:GetService("Workspace")
 local RS = game:GetService("ReplicatedStorage")
 local RunS = game:GetService("RunService")
-local P = game:GetService("Player")
+local P = game:GetService("Players")
 local LP = P.LocalPlayer
 local HttpService = game:GetService("HttpService")
 
@@ -34,6 +34,8 @@ G.Config = {
     ["Bring Mob"] = false,
     ["Inf Stun"] = false,
     ["Claw KA"] = false,
+    ["Auto Loot"] = false,
+	["Auto Eat Souls"] = false,
     ["Farm"] = {
         ["Enable"] = false,
         ["Mode"] = "Above",
@@ -59,7 +61,7 @@ G.Config = {
        ["N"] = false
     },
     ["Webhook"] = {
-        ["Webhook Url"] = "",
+        ["Url"] = "",
         ["Loot"] = false,
         ["Status"] = false,
         ["Dungeon"] = false
@@ -110,21 +112,22 @@ local function SaveSettings(m, n)
     if m ~= nil then
         m = n
     end
-    local HttpService = game:GetService('HttpService')
-    if not isfolder(a) then
-        makefolder(a)
+    local HttpService = game:GetService("HttpService")
+    if not isfolder(folder) then
+        makefolder(folder)
     end
     writefile(folder .. "/" .. file, HttpService:JSONEncode(_G.Config))
-    warn("Setting Saved")
 end
+
+warn("Setting Saved")
 
 local function ReadSetting()
     local s, e = pcall(function()
         HttpService = game:GetService("HttpService")
-        if not isfolder(a) then
-            makefolder(a)
+        if not isfolder(folder) then
+            makefolder(folder)
         end
-        return HttpService:JSONDecode(readfile(a .. "/" .. l))
+        return HttpService:JSONDecode(readfile(folder .. "/" .. file))
     end)
     if s then
         return e
@@ -139,7 +142,8 @@ _G.Config = ReadSetting()
 local REMOTE = RS:WaitForChild("Remotes")
 local To_Server = REMOTE:WaitForChild("To_Server")
 local Handle_Initiate_S_ = To_Server:WaitForChild("Handle_Initiate_S_")
-local Apply_Slot = REMOTE.WaitForChild("Apply_Slot")
+local Apply_Slot = REMOTE:WaitForChild("Apply_Slot")
+local spins_thing_remote = RS:WaitForChild("spins_thing_remote")
 
 local function Slot(m)
 Apply_Slot:InvokeServer(m)
@@ -149,7 +153,7 @@ if Menu then
 end
 task.wait(5)
 
-local Data = RS:WaitForChild("Player_Data")[LP.Name]
+local Data = RS.Player_Data[LP.Name]
 
 local Modes = {"Above", "Below", "Behind", "Front"}
 local WKA = {"Fist", "Sword", "Scythe", "Claw", "Fans", "All"}
@@ -157,7 +161,8 @@ local MythicSupremeClan = {"Kamado", "Uzui", "Rengoku", "Agatsuma", "Hashibira",
 local SupremeClan = {"Kamado", "Uzui", "Rengoku", "Agatsuma"}
 
 local Clan = Data.Clan.Value
-local Spin = Data.Spin.Value
+local Spin = Data.Spins.Value
+local DSpin =  P[LP.Name].daily_spins_folder.SpinsToday.Value
 
 task.spawn(function()
     while task.wait() do
@@ -191,8 +196,18 @@ task.spawn(function()
     end
 end)
 
+task.spawn(function()
+    while task.wait() do
+        if G.["Auto Daily Spins"] and DSpin > 0 then
+            spins_thing_remote:InvokeServer()
+            task.wait(0.1)
+        else
+            break
+        end
+    end
+end)
 
-local Library = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/KvdzUwU/TrashHub/main/PC/UI.lua", true))()
+local Library = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/KvdzUwU/TrashHub/main/PC/UI.lua"))()
 local Wait = Library.subs.Wait
 
 local W = Library:Window({Name = "Jerry Hub", Themeable = true})
@@ -213,6 +228,14 @@ local Aa8 = Aa:Label({Name = "Breathing Progress: N/A"})
 local Aa9 = Aa:Label({Name = "Demon Progress: N/A"})
 local Aa10 = Aa:Label({Name = "Time: N/A"})
 
+task.spawn(function()
+    while task.wait() do
+        Aa1:Set("Clan: %s"):format(Clan)
+        Aa6:Set("Clan Spin: %i"):format(Spin)
+        Aa7:Set("Daily Spin: %i"):format(DSpin)
+        task.wait(0.5)
+    end
+end)
 local Ab = A:Section({Name = "Spin", Side = "Left"})
 
 Ab:Button({
@@ -427,24 +450,26 @@ Ac:Toggle(
 
 local Ad = A:Section({Name = "Webhook", Side = "Right"})
 
+
+
 Ad:Toggle(
     {
         Name = "Webhook Loot Enable",
-        Value = G.Config["Webhook Loot"]["Enable"],
+        Value = G.Config["Webhook"]["Loot"],
         Callback = function(v)
-            SaveSettings(G.Config["Webhook Loot"]["Enable"], v)
-		end
-	}
+            SaveSettings(G.Config["Webhook"]["Loot"], v)
+        end
+    }
 )
 
 Ad:Textbox(
     {
         Name = "Webhook Link",
-        Value = G.Config["Webhook Loot"]["Link"],
+        Value = G.Config["Webhook"]["Url"],
         Callback = function(v)
-            SaveSettings(G.Config["Webhook Loot"]["Link"], v)
-		end
-	}
+            SaveSettings(G.Config["Webhook"]["Url"], v)
+        end
+    }
 )
 
 local Ae = A:Section({Name = "Setting Farm", Side = "Left"})
@@ -456,8 +481,8 @@ Ae:Dropdown(
         Value = G.Config["Farm"]["Mode"],
         Callback = function(v)
             SaveSettings(G.Config["Farm"]["Farm Mode"], v)
-		end
-	}
+        en
+    }
 )
 
 Ae:Dropdown(
@@ -467,8 +492,8 @@ Ae:Dropdown(
         Value = G.Config["Kill Aura"]["Weapon"],
         Callback = function(v)
             SaveSettings(G.Config["Kill Aura"]["Weapon"], v)
-		end
-	}
+        end
+    }
 )
 
 Ae:Dropdown(
@@ -478,8 +503,8 @@ Ae:Dropdown(
         Value = G.Config["Kill Aura"]["Hit"],
         Callback = function(v)
             SaveSettings(G.Config["Kill Aura"]["Hit"], v)
-		end
-	}
+        end
+    }
 )
 
 Ae:Slider(
@@ -487,12 +512,12 @@ Ae:Slider(
         Name = "Kill Aura Cooldown",
         Min = 1.25,
         Max = 2.5,
-        Value = G.Config["Kill Aura"]["Cooldown"]
+        Value = G.Config["Kill Aura"]["Cooldown"],
         Textbox = true,
         Callback = function(v)
             SaveSettings(G.Config["Kill Aura"]["Cooldown"], v)
-		end
-	}
+        end
+    }
 )
 
 Ae:Slider(
@@ -504,8 +529,8 @@ Ae:Slider(
         Textbox = true,
         Callback = function(v)
             SaveSettings(G.Config["Farm"]["Tween Speed"], v)
-		end
-	}
+        end
+    }
 )
 
 Ae:Slider(
@@ -517,6 +542,6 @@ Ae:Slider(
         Textbox = true,
         Callback = function(v)
             SaveSettings(G.Config["Farm"]["Distance"], v)
-		end
-	}
+        end
+    }
 )
