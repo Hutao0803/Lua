@@ -32,7 +32,7 @@ _G.Setting = {
     }
 }
 
-local Library = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/KvdzUwU/TrashHub/main/PC/UI.lua"))()
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/KvdzUwU/TrashHub/main/PC/UI.lua"))()
 local Subs = Library.subs 
 local IsOpen = Subs.Wait
 
