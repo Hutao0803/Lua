@@ -1005,7 +1005,7 @@ function BringMob()
     end
 end
 local function TP1(Pos)
-    Distance = (Pos.Position - .Character.HumanoidRootPart.Position).Magnitude
+    Distance = (Pos.Position - Character.HumanoidRootPart.Position).Magnitude
     if Character.Humanoid.Sit == true then 
         Character.Humanoid.Sit = false 
     end     
