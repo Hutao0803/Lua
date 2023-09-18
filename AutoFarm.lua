@@ -429,9 +429,10 @@ local codes = {
     "ADMIN_STRENGTH",
     "DRAGONABUSE"
 }
-
-table.foreach(codes, function(value)
-    Remotes:WaitForChild("Redeem"):InvokeServer(value)
+pcall(function()
+    for _v in pairs(codes) do
+	Remotes:WaitForChild("Redeem"):InvokeServer(v)
+    end
 end)
 
 local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/KvdzUwU/TrashHub/main/PC/UI.lua"))()
