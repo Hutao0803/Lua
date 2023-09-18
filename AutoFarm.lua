@@ -440,8 +440,8 @@ local window = library:W({
     Name = "Kaitun",
     Theme = true   
 })
-local tru = window:T({Name ="Main"})
-local section = tab:S({Name = "Farming", Side = "Left"})
+local tab = window:T({Name ="Main"})
+local section = tab:Sec({Name = "Farming", Side = "Left"})
 local Farm = section:Tog({
     Name = "Start Kaitun", 
     Value = true, 
