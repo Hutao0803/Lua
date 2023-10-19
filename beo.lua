@@ -512,7 +512,7 @@ if getgenv().Kaitun and LP.Character and LP.Character:FindFirstChild("Humanoid")
         end
         if getgenv().Kaitun then
         local mylevel = Data.Level.Value
-        if mylevel >= 15 and mylevel < 60 then
+        if mylevel >= 20 and mylevel < 60 then
             FastFarm()
         elseif mylevel >= 60 and mylevel < 300 then
             HuntPlayer()
