@@ -281,7 +281,7 @@ local Toggle = Main:AddToggle("Auto Farm Level", {
     end 
 })
     
-    Options["Auto Farm Level"]:SetValue(getgenv().Config["Kaitun"] or false)
+    Options["Auto Farm Level"]:SetValue(true)
     
 local SelectTool = Main:AddDropdown("SelectTool",{
     Title = "Dropdown",
@@ -292,7 +292,7 @@ local SelectTool = Main:AddDropdown("SelectTool",{
     end
 })
     
-SelectTool:SetValue(getgenv().Config["Tool"] or "Melee")
+SelectTool:SetValue("Melee")
     
 SaveManager:SetLibrary(Fluent)InterfaceManager:SetLibrary(Fluent)SaveManager:IgnoreThemeSettings()InterfaceManager:SetFolder("HirimiHub")InterfaceManager:BuildInterfaceSection(Settings)Window:SelectTab(1)SaveManager:LoadAutoloadConfig()
 local function Click()
