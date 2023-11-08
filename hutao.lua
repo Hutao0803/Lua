@@ -16,7 +16,7 @@ elseif y == 4442272183 then
     elseif y == 7449423635 then
     Sea3 = true
 end
-function SaveSettings(m, n)
+--[[function SaveSettings(m, n)
     if m ~= nil then
         h[m] = n
     end
@@ -41,7 +41,7 @@ function ReadSetting()
         return ReadSetting()
     end
 end
-h = ReadSetting()
+h = ReadSetting()]]
 repeat
     pcall(function()
         wait()
