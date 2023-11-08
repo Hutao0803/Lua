@@ -335,7 +335,7 @@ local AutoFarm = Main:AddToggle("Auto Farm", {
     Title = "Auto Farm",
     Default = false,
     Callback = function(v)
-        SaveSettings("Auto Farm", v)
+        h["Auto Farm"] = v
         NoClip = v
     end
 })
