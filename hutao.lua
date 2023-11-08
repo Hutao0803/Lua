@@ -4,7 +4,6 @@ repeat wait() until game.Players.LocalPlayer
 local Ply = game:GetService("Players")
 local LP = Ply.LocalPlayer
 local Remote = game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("CommF_")
-local HttpService = game:GetService("HttpService")
 local folder = "Hirimi Hub"
 local filer = game.Players.LocalPlayer.Name .. "-Blox Fruit.json"
 local h = {}
@@ -18,9 +17,10 @@ elseif y == 4442272183 then
     Sea3 = true
 end
 function SaveSettings(m, n)
-    if type(m) == "string" then
+    if m ~= nil then
         h[m] = n
     end
+	HttpService = game:GetService("HttpService")
     if not isfolder(folder) then
         makefolder(folder)
     end
@@ -28,6 +28,7 @@ function SaveSettings(m, n)
 end
 function ReadSetting()
     local s, o = pcall(function()
+	HttpService = game:GetService("HttpService")
         if not isfoler(folder) then
             makefolder(folder)
         end
