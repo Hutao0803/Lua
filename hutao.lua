@@ -17,8 +17,8 @@ elseif y == 4442272183 then
     elseif y == 7449423635 then
     Sea3 = true
 end
-local function SaveSettings(m, n)
-    if typeof(m) == "string" then
+function SaveSettings(m, n)
+    if type(m) == "string" then
         h[m] = n
     end
     if not isfolder(folder) then
@@ -26,7 +26,7 @@ local function SaveSettings(m, n)
     end
     writefile(folder .. "/" .. filer, HttpService:JSONEncode(h))
 end
-local function ReadSetting()
+function ReadSetting()
     local s, o = pcall(function()
         if not isfoler(folder) then
             makefolder(folder)
