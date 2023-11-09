@@ -244,6 +244,19 @@ local function Buso()
         Remote:InvokeServer("Buso")
     end
 end
+local function RemoveLv(name)
+    name = name:gsub(" %pLv.%d+%p", "")
+    return name
+end
+local function GetMob(mob)
+    local m
+    for i, v in pairs(Workspace.MobSpawns) do
+        if RemoveLv(v.Name) == mob then
+            m = v.Name
+        end
+    end
+    return m
+end
 local function KillMob(Mob)
     pcall(function()
     local MobList = {}
