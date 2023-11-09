@@ -342,7 +342,7 @@ local AutoFarm = Main:AddToggle("Auto Farm", {
 spawn(function()
     while wait() do
         if h["Auto Farm"] then
-            if h["Level"] then
+            --if h["Level"] then
                 local mQ = Quest()
                 local QD = require(game.ReplicatedStorage.GuideModule)["Data"]["QuestData"]
                 if QD then
@@ -354,12 +354,12 @@ spawn(function()
                 else
                     GetQuest()
                 end
-            end
+            --end
         end
     end  
 end)
 spawn(function()
-    game:GetService("RunService").Stepped:Connect(function()
+    while wait() do
         if NoClip and LP.Character and LP.Character:FindFirstChild("Humanoid") and LP.Character:FindFirstChild("HumanoidRootPart") then
             setfflag("HumanoidParallelRemoveNoPhysics", "False")
             setfflag("HumanoidParallelRemoveNoPhysicsNoSimulate2", "False")
@@ -379,7 +379,7 @@ spawn(function()
         elseif not NoClip and LP.Character.HumanoidRootPart:FindFirstChild("BodyClip") then
             LP.Character.HumanoidRootPart.BodyClip:Destroy()
         end
-    end)
+    end
 end)
 spawn(function()
     while wait() do
