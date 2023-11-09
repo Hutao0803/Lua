@@ -360,7 +360,7 @@ spawn(function()
 end)
 spawn(function()
     game:GetService("RunService").Stepped:Connect(function()
-        if NoClip and LP.Character and LP.Character:FindFirstChild("Humanoid") and v.Character:FindFirstChild("HumanoidRootPart") then
+        if NoClip and LP.Character and LP.Character:FindFirstChild("Humanoid") and LP.Character:FindFirstChild("HumanoidRootPart") then
             setfflag("HumanoidParallelRemoveNoPhysics", "False")
             setfflag("HumanoidParallelRemoveNoPhysicsNoSimulate2", "False")
             LP.Character.Humanoid:ChangeState(11)
