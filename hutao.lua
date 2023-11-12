@@ -152,7 +152,7 @@ local function CheckTele(c)
 end
 local function TpEntrance(pos)
     Remote:InvokeServer("requestEntrance", pos)
-    LP.Character.Character.HumanoidRootPart.CFrame = LP.Character.Character.HumanoidRootPart.CFrame * CFrame.new(0, 50, 0)
+    LP.Character.Character.HumanoidRootPart.CFrame = LP.Character.HumanoidRootPart.CFrame * CFrame.new(0, 50, 0)
     wait(.5)
 end
 local function TP(P, object)
